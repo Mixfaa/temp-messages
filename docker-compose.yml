@@ -1,0 +1,19 @@
+services:
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    environment:
+      - REDIS_PASSWORD=redis-password
+    command: redis-server --requirepass redis-password --appendonly yes
+    networks:
+      - my-network
+
+volumes:
+  redis_data:
+networks:
+  my-network:
+    driver: bridge

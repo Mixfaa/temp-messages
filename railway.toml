@@ -1,0 +1,6 @@
+[build]
+builder= "DOCKERFILE"
+
+[deploy]
+restartPolicyMaxRetries = 2
+restartPolicyType = "ON_FAILURE"
