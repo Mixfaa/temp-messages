@@ -10,12 +10,14 @@ import java.lang.ref.WeakReference;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+ 
 @Getter
 @ToString
 @Accessors(fluent = true)
-public final class Channel {
+public class Channel {
     private final String name;
     private final String passwordHash;
     private final ChannelTopic topic;
@@ -32,8 +34,9 @@ public final class Channel {
         this.resources = new CopyOnWriteArrayList<>();
     }
 
-    public void addResource(Object resource) {
+    public <T> T addResource(T resource) {
         this.resources.add(resource);
+        return resource;
     }
 
     public Iterable<Object> filteredResources() {
@@ -45,6 +48,23 @@ public final class Channel {
                 })
                 .filter(Objects::nonNull)
                 .toList();
+    }
+
+    public <T> List<T> findResourcesOfType(Class<T> clazz) {
+        return resources
+                .stream()
+                .filter(clazz::isInstance)
+                .map(res -> (T) res)
+                .toList();
+    }
+
+
+    public <T> Optional<T> findResourceOfType(Class<T> clazz) {
+        return resources
+                .stream()
+                .filter(clazz::isInstance)
+                .findFirst()
+                .map(res -> (T) res);
     }
 
     public void clearResources() {

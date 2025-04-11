@@ -59,7 +59,7 @@ public class EnterRoute extends AppLayout {
                 Notification.show("Channel already exists");
             } else {
                 try {
-                    channelsService.createChannel(name, password);
+                    channelsService.createChannel(name, password).block();
 
                     UI.getCurrent().navigate(ChannelRoute.class, new RouteParameters(Map.of("name", name, "password", password)));
                     Notification.show("Channel created");

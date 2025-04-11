@@ -11,7 +11,7 @@ import java.io.InputStream;
 public interface ReactiveChannelsService {
     Flux<Message> listenMessages(String channelName, String password) throws Exception;
 
-    Flux<Message> listMessages(String channelName, String password, long rangeStart, long rangeEnd) throws Exception;
+    Flux<Message> listMessages(String channelName, String password, long offset, long limit) throws Exception;
 
     Mono<Channel> createChannel(String channelName, String password) throws Exception;
 
